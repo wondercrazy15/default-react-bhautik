@@ -1,6 +1,7 @@
 import { Box, Container, Grid, IconButton, List, ListItem, Typography } from '@mui/material';
 import './todo.css'
 import React, { useState, useEffect } from 'react'
+import { TodoAddRedux } from '../../store/actions/todo';
 import TodoAdd from './TodoAdd';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -9,11 +10,13 @@ import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import nextId from "react-id-generator";
+import { useDispatch } from 'react-redux';
 
 
 
 const Todo = () => {
     const htmlId = nextId();
+    const dispatch = useDispatch();
 
     const [toDoList, setToDoList] = useState([]);
 
@@ -24,8 +27,10 @@ const Todo = () => {
     }
 
     useEffect(() => {
+        debugger
         if (toDoList.length > 0) {
             localStorage.setItem("todo", JSON.stringify(toDoList));
+            dispatch(TodoAddRedux(toDoList));
         }
     }, [toDoList])
 
@@ -51,6 +56,7 @@ const Todo = () => {
         newTasks.splice(index, 1);
         setToDoList(newTasks);
         localStorage.setItem("todo", JSON.stringify(newTasks));
+        // dispatch(TodoRemoveRedux(index))
     };
 
     const editTask = (todo) => {
@@ -58,9 +64,6 @@ const Todo = () => {
         const seteditTodo = newTasks.find(item => item.id === todo.id);
         setEditTodo(seteditTodo);
     };
-
-
-
 
     const [checked, setChecked] = React.useState([0]);
 
@@ -73,7 +76,6 @@ const Todo = () => {
         } else {
             newChecked.splice(currentIndex, 1);
         }
-
         setChecked(newChecked);
     };
 
