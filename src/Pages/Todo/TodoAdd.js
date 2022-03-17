@@ -1,36 +1,40 @@
-import { Button, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import React from 'react'
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import * as Yup from 'yup';
 
-const validationSchema = yup.object({
-    task: yup
+const validationSchema = Yup.object({
+    task: Yup
         .string('Enter your task')
         .required('task is required'),
 
+    // task: Yup.string().email('Invalid email').required('Required')
+
 });
 
-const TodoAdd = ({ addTask, editTodo }) => {
+const TodoAdd = ({ addTask, editTodo }) => { 
 
-    console.log(editTodo)
     const formik = useFormik({
         initialValues: {
-            task: '',
+            task: editTodo.task,
         },
         validationSchema: validationSchema,
         onSubmit: (values, actions) => {
-            values && addTask(values);
-            actions.resetForm({
-                values: {
-                    task: '',
-                },
-            }); 
+            setTimeout(() => {
+                values && addTask(values);
+                actions.setSubmitting(false);
+                actions.resetForm({
+                    values: {
+                        task: '',
+                    },
+                }, 1000);
+            });
         }
 
     });
 
     return (
-        <div>
+        <Box sx={{ my: 5 }}>
             <form onSubmit={formik.handleSubmit}>
                 <TextField
                     fullWidth
@@ -42,11 +46,11 @@ const TodoAdd = ({ addTask, editTodo }) => {
                     error={formik.touched.task && Boolean(formik.errors.task)}
                     helperText={formik.touched.task && formik.errors.task}
                 />
-                <Button color="primary" variant="contained" fullWidth type="submit">
+                <Button color="primary" variant="contained" fullWidth type="submit" sx={{ my: 5 }}>
                     Submit
                 </Button>
             </form>
-        </div>
+        </Box>
     )
 }
 
