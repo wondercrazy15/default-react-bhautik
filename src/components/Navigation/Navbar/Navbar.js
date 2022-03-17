@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['contact', 'Blog','todo'];
+const pages = ['todo'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -75,7 +75,7 @@ const ResponsiveAppBar = () => {
                         </Menu>
                     </Box>
                     <Typography
-                        variant="h6" 
+                        variant="h6"
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
                         onClick={() => navigate('/')}
@@ -85,13 +85,13 @@ const ResponsiveAppBar = () => {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Box onClick={() => setPageMenu(null)}>
-                            <Button
-                                key={page}
-                                onClick={() => navigate('/' + page + '')}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
+                                <Button
+                                    key={page}
+                                    onClick={() => navigate('/' + page + '')}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page}
+                                </Button>
                             </Box>
                         ))}
                     </Box>
